@@ -15,7 +15,7 @@ def extract_websites_to_crawl(websites):
     for url in websites:
         if not url.startswith("http"):
             url = "https://www."  + url
-        if url.endswith(".zip") or url.endswith(".pdf") or url.endswith(".mp4") or url.endswith(".gz") or url.endswith(".bz2") or url.startswith("ftp://") or len(url) < 7:
+        if url.endswith(".zip") or url.endswith(".pdf") or url.endswith("/pdf") or url.endswith("/png") or url.endswith(".mp4") or url.endswith(".gz") or url.endswith(".bz2") or url.startswith("ftp://") or len(url) < 7:
             problematic_websites.append(url)
         else:
             websites_to_crawl.append(url)
