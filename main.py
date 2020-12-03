@@ -6,15 +6,14 @@ import sys
 import argparse
 import requests
 
-
 def extract_websites_to_crawl(websites):
-    # This functions parses the urls. Extract the problematic and return the good websites for crawl.
+    # Extract the problematic and return the good websites for crawl.
     problematic_websites = []
     websites_to_crawl = []
     for url in websites:
         if not url.startswith("http"):
             url = "https://www."  + url
-        if url.endswith(".zip") or url.endswith(".pdf") or url.endswith("/pdf") or url.endswith("/png") or url.endswith(".mp4") or url.endswith(".gz") or url.endswith(".bz2") or url.startswith("ftp://") or len(url) < 7:
+        if url.endswith((".zip", ".pdf", "/pdf", "/png", "/.mp4", ".gz", ".bz2")) or url.startswith("ftp://") or len(url) < 7:
             problematic_websites.append(url)
         else:
             websites_to_crawl.append(url)
@@ -67,6 +66,7 @@ def main(args):
     logging.getLogger().addHandler(console)
 
     logging.info("Starting the requests. ESTIMATED TIME: 8s.")
+
     # Request the API.
     tools = request_api(args.input_url_tools, logging)
     logging.info(f"Total entries: {len(tools)}.")
@@ -84,6 +84,7 @@ def main(args):
 
     # Save dict to JSON.
     write_json_file(final_dict, f"{args.output_directory}/{args.output_file_name_metrics}.json")
+
     logging.info(f"Saved websites ({len(websites_for_crawling)}) in {args.output_directory}/{args.output_file_name_metrics}.json")
 
 if __name__ == "__main__":
